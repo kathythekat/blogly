@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="form-container">
+    <!-- <form action="/convert" method="POST"> -->
+    <form action="/convert" method="POST">
+        <label for="from_currency">Convert From:<br>
+            <input class="form-input" type="text" id="from_currency" name="from_currency" placeholder="Enter currency code here.">
+        </label><br>
+    <br>
+        <label for="to_currency">Convert To:<br>
+            <input class="form-input" type="text" id="to_currency" name="to_currency" placeholder="Enter currency code here."><br>
+        </label><br>
+        <label for="amount">Amount:<br>
+            <input class="form-input" type="text" id="amount" name="amount" placeholder="Enter amount to convert."><br>
+        </label>
+        <input type="submit" class="submit-button" value="Convert">
+    </form>
+</div> 
+</div>
+
+{% endblock%}
