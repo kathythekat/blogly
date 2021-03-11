@@ -60,10 +60,10 @@ def show_user(user_id):
 
 
 @app.route('/users/<int:user_id>/edit', methods=["POST"])
-def edit_user():
-    first_name = request.form['edit_first_name']
-    last_name = request.form['edit_last_name']
-    link = request.form['edit_image_url']
+def edit_user(user_id):
+    first_name = request.form['edit-first_name']
+    last_name = request.form['edit-last_name']
+    link = request.form['edit-image_url']
 
     user = User(first_name=first_name, last_name=last_name, image_url=link)
     db.session.add(user)
@@ -72,7 +72,17 @@ def edit_user():
     return redirect("/users")
 
 
-@app.route('/users/{{user.id}}/edit')
-def link_edit():
+@app.route('/users/<int:user_id>/edit')
+def link_edit(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template("edit_user.html", user=user)
 
-    return render_template("edit_user.html")
+
+@app.route('/users/<int:user_id>/delete', methods=["POST"])
+def delete(user_id):
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/users")
+    

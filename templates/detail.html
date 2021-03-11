@@ -3,9 +3,17 @@
 
 {% block content %}
 <div class="user-detail-container">
-    <h1>{{user.first_name}}</h1>
-    <img src="user.image_url" alt="">
-    <button formaction="/users/{{user.id}}/edit" type="button" class="edit-button">Edit</button>
-    <button type="button" class="delete-button">Delete</button>
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+    <img src="{{user.image_url}}" alt="">
+    <!-- <form action="/users/edit">
+        <button type="button" class="edit-button">Edit</button>
+        <button type="button" class="delete-button">Delete</button>
+    </form> -->
+    <form action='/users/{{user.id}}/edit'>
+        <input class="edit-button" type="submit" value="Edit" />
+    </form>
+    <form action='/users/{{user.id}}/delete' method="POST">
+        <input class="delete-button" type="submit" value="Delete" />
+    </form>
 </div>
 {% endblock%}
