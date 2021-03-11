@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -34,7 +34,8 @@ def home():
 def add_user():
 
     return render_template(
-        'create_user.html'
+        'create_user.html',
+
     )
 
 
@@ -44,6 +45,9 @@ def create_user():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     link = request.form['image_url']
+
+    if not link:
+        link = None
 
     user = User(first_name=first_name, last_name=last_name, image_url=link)
     db.session.add(user)
@@ -61,11 +65,11 @@ def show_user(user_id):
 
 @app.route('/users/<int:user_id>/edit', methods=["POST"])
 def edit_user(user_id):
-    first_name = request.form['edit-first_name']
-    last_name = request.form['edit-last_name']
-    link = request.form['edit-image_url']
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form['edit-first_name']
+    user.last_name = request.form['edit-last_name']
+    user.image_url = request.form['edit-image_url']
 
-    user = User(first_name=first_name, last_name=last_name, image_url=link)
     db.session.add(user)
     db.session.commit()
 
@@ -85,4 +89,30 @@ def delete(user_id):
     db.session.commit()
 
     return redirect("/users")
-    
+
+
+@app.route('/users/<int:user_id>/posts/new')
+def show_new_post(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template(
+        "create_post.html",
+        user=user
+    )
+
+
+@app.route('/users/<int:user_id>/posts/new', methods=["POST"])
+def submit_new_post(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    title = request.form['post-title']
+    content = request.form['post-content']
+
+    post = Post(title=title, content=content, user_id=user)
+
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect("/users/<int:user_id>")

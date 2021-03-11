@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add Post for {{user.first_name}} {{user.last_name}}</h1>
+<div class="form-container">
+    <form action="/users/{{user.id}}/post/new" method="POST">
+        <label for="title">Title<br>
+            <input class="form-input" type="text" name="post-title">
+        </label><br>
+    <br>
+        <label for="content">Content<br>
+            <input class="form-input" type="text" name="post-content"><br>
+        </label><br>
+    </form> 
+    <form action="/users/{{user.id}}">
+        <input type="submit" class="submit-button" value="Add">
+    </form>
+    <div class="cancel-button-container"> 
+        <a href='/users/{{user.id}}'><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
+    </div>
+</div>
+
+{% endblock%}
