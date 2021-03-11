@@ -2,20 +2,21 @@
 
 
 {% block content %}
+<h1>Create a user</h1>
 <div class="form-container">
     <!-- <form action="/convert" method="POST"> -->
-    <form action="/convert" method="POST">
-        <label for="from_currency">Convert From:<br>
-            <input class="form-input" type="text" id="from_currency" name="from_currency" placeholder="Enter currency code here.">
+    <form action="/users/new" method="POST">
+        <label for="first-name">First Name<br>
+            <input class="form-input" type="text" name="first_name" placeholder="Enter a first name">
         </label><br>
     <br>
-        <label for="to_currency">Convert To:<br>
-            <input class="form-input" type="text" id="to_currency" name="to_currency" placeholder="Enter currency code here."><br>
+        <label for="last-name">Last Name<br>
+            <input class="form-input" type="text" name="last_name" placeholder="Enter a last name"><br>
         </label><br>
-        <label for="amount">Amount:<br>
-            <input class="form-input" type="text" id="amount" name="amount" placeholder="Enter amount to convert."><br>
+        <label for="image-url">Image URL<br>
+            <input class="form-input" type="text" name="image_url" placeholder="Provide an image of this user"><br>
         </label>
-        <input type="submit" class="submit-button" value="Convert">
+        <input type="submit" class="submit-button" value="Add">
     </form>
 </div> 
 </div>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="form-container">
+    <!-- <form action="/convert" method="POST"> -->
+    <form action="/users/{{user.id}}/edit" method="POST">
+        <label for="edit-first-name">First Name<br>
+            <input class="form-input" type="text" name="edit-first_name" placeholder="{{user.first_name}}">
+        </label><br>
+    <br>
+        <label for="edit-last-name">Last Name<br>
+            <input class="form-input" type="text" name="edit-last_name" placeholder="{{user.last_name}}"><br>
+        </label><br>
+        <label for="edit-image-url">Image URL<br>
+            <input class="form-input" type="text" name="edit-image_url" placeholder="{{user.image_url}}"><br>
+        </label>
+        <input type="submit" class="cancel-button" value="Cancel">
+        <input type="submit" class="save-button" value="Save">
+    </form>
+</div> 
+</div>
+
+{% endblock%}
