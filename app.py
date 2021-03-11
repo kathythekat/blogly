@@ -35,7 +35,6 @@ def add_user():
 
     return render_template(
         'create_user.html',
-
     )
 
 
@@ -58,9 +57,10 @@ def create_user():
 
 @app.route('/users/<int:user_id>')
 def show_user(user_id):
-
     user = User.query.get_or_404(user_id)
-    return render_template("detail.html", user=user)
+    # post = Post.query.filter(Post.user_id == user_id).all()
+    post = user.posts
+    return render_template("detail.html", user=user, post=post)
 
 
 @app.route('/users/<int:user_id>/edit', methods=["POST"])
@@ -101,18 +101,58 @@ def show_new_post(user_id):
         user=user
     )
 
-
-@app.route('/users/<int:user_id>/posts/new', methods=["POST"])
+@app.route('/users/<int:user_id>/post/new', methods=["POST"])
 def submit_new_post(user_id):
-
-    user = User.query.get_or_404(user_id)
-
     title = request.form['post-title']
     content = request.form['post-content']
 
-    post = Post(title=title, content=content, user_id=user)
+    post = Post(title=title, content=content, user_id=user_id)
+    # user.posts.append(post)
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f"/users/{user_id}")
+
+@app.route('/posts/<int:post_id>')
+def show_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    user = User.query.get_or_404(user_id)
+
+    return render_template(
+        "post_detail.html",
+        post = post,
+        user_id = user_id,
+        user = user
+    )
+
+@app.route('/posts/<int:post_id>/delete', methods=["POST"])
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f"/users/{user_id}")
+
+
+@app.route('/posts/<int:post_id>/edit', methods=["POST"])
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    post.title = request.form['edit-title']
+    post.content = request.form['edit-content']
 
     db.session.add(post)
     db.session.commit()
 
-    return redirect("/users/<int:user_id>")
+    return redirect(f"/posts/{post_id}")
+
+
+@app.route('/posts/<int:post_id>/edit')
+def link_edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    return render_template(
+        "edit_post.html",
+        user_id=user_id,
+        post=post)

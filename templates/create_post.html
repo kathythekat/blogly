@@ -7,14 +7,16 @@
         <label for="title">Title<br>
             <input class="form-input" type="text" name="post-title">
         </label><br>
-    <br>
+        <br>
         <label for="content">Content<br>
             <input class="form-input" type="text" name="post-content"><br>
         </label><br>
-    </form> 
-    <form action="/users/{{user.id}}">
         <input type="submit" class="submit-button" value="Add">
-    </form>
+        
+    </form> 
+    <!-- <form action="/users/{{user.id}}" method="POST">
+        
+    </form> -->
     <div class="cancel-button-container"> 
         <a href='/users/{{user.id}}'><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
     </div>

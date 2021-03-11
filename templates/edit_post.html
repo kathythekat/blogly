@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+  <h1>Edit Post</h1>
+
+  <form action="/posts/{{post.id}}/edit" method="POST">
+    <label for="edit-title">Title<br>
+        <input class="form-input" type="text" name="edit-title" placeholder="{{post.title}}">
+    </label><br>
+    <br>
+    <label for="edit-content">Post Content<br>
+        <input class="form-input" type="text" name="edit-content" placeholder="{{post.content}}"><br>
+    </label><br>
+
+    <input type="submit" class="edit-button" value="Edit">
+  </form>
+
+  <a href='/users/{{user_id}}'><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
+</div>
+
+{% endblock%}

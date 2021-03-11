@@ -27,6 +27,9 @@ class User(db.Model):
                           nullable=True,
                           unique=False,
                           default="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png")
+    
+    posts = db.relationship('Post')
+
 
 
 class Post(db.Model):
@@ -45,3 +48,5 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime,
                            default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User')

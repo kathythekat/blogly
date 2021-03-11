@@ -13,15 +13,16 @@
 </div>
 <div class="posts-container">
     <ul>
-        {% for posts in posts %}
-        <li><a href="/posts/{{post.id}}">{{post.title}} {{post.content}}</a></li>
+        {% for p in post %}
+        <li><a href="/posts/{{p.id}}">{{p.title}} {{p.content}}</a></li>
         {% endfor%}
     </ul>
 
     <form action='/users/{{user.id}}/posts/new'>
         <input class="add-button" type="submit" value="Add Post" />
     </form>
-
-
 </div>
+
 {% endblock%}
+
+
