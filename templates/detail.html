@@ -1,14 +1,9 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <div class="user-detail-container">
     <h1>{{user.first_name}} {{user.last_name}}</h1>
-    <img src="{{user.image_url}}" alt="">
-    <!-- <form action="/users/edit">
-        <button type="button" class="edit-button">Edit</button>
-        <button type="button" class="delete-button">Delete</button>
-    </form> -->
+    <img class="user_image" src="{{user.image_url}}" alt="">
     <form action='/users/{{user.id}}/edit'>
         <input class="edit-button" type="submit" value="Edit" />
     </form>

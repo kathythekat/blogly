@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <h1>Create a user</h1>
 <div class="form-container">
-    <!-- <form action="/convert" method="POST"> -->
     <form action="/users/new" method="POST">
         <label for="first-name">First Name<br>
             <input class="form-input" type="text" name="first_name" placeholder="Enter a first name">
