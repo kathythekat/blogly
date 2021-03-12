@@ -95,10 +95,12 @@ def delete(user_id):
 def show_new_post(user_id):
 
     user = User.query.get_or_404(user_id)
+    tag = Tag.query.all()
 
     return render_template(
         "create_post.html",
-        user=user
+        user=user,
+        tag=tag
     )
 
 
@@ -107,8 +109,10 @@ def submit_new_post(user_id):
     title = request.form['post-title']
     content = request.form['post-content']
 
-    post = Post(title=title, content=content, user_id=user_id)
-    # user.posts.append(post)
+    tag_ids = [int(num) for num in request.form.getlist("tags")]
+    tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+
+    post = Post(title=title, content=content, user_id=user_id, tags=tags)
     db.session.add(post)
     db.session.commit()
 
@@ -184,6 +188,18 @@ def process_tag():
 
     return redirect("/tags")
 
+@app.route('/tags/<int:tag_id>')
+def show_tag_detail(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    # breakpoint()
+    posts = tag.blog_posts
+ 
+    return render_template(
+        'tag_detail.html',
+        tag= tag,
+        posts=posts
+    )
+
 
 @app.route('/tags/<int:tag_id>/edit')
 def edit_tag(tag_id):
@@ -195,7 +211,6 @@ def edit_tag(tag_id):
         tag=tag
     )
 
-
 @app.route(('/tags/<int:tag_id>/edit'), methods=["POST"])
 def editing_tag(tag_id):
 
@@ -203,6 +218,14 @@ def editing_tag(tag_id):
     tag.name = request.form['edit-tag']
 
     db.session.add(tag)
+    db.session.commit()
+
+    return redirect("/tags")
+
+@app.route('/tags/<int:tag_id>/delete', methods=["POST"])
+def delete_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    db.session.delete(tag)
     db.session.commit()
 
     return redirect("/tags")

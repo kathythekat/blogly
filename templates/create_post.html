@@ -12,14 +12,14 @@
             <input class="form-input" type="text" name="post-content"><br>
         </label><br>
         <input type="submit" class="submit-button" value="Add">
-        
-    </form> 
-    <!-- <form action="/users/{{user.id}}" method="POST">
-        
-    </form> -->
+    </form>
     <div class="cancel-button-container"> 
         <a href='/users/{{user.id}}'><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
     </div>
 </div>
+{% for t in tag %}
+    <input type="checkbox" name="tag-box" value="{{t.name}}">
+    <label for="tag-box">{{t.name}}</label><br>
+{% endfor%}
 
 {% endblock%}

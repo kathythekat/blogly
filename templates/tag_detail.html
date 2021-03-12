@@ -4,19 +4,20 @@
 <div class="user-detail-container">
     <h1>{{tag.name}}</h1>
     <div class="content-container">
-        <p>{{post.content}}</p>
-        <h2> By {{user.first_name}} {{user.last_name}}</h2>
+        <ul>
+            {% for p in posts %}
+            <li><a href="/posts/{{p.id}}">{{p.title}}</a></li>
+            {% endfor%}
+        </ul>
     </div>
 
-    <form action='/posts/{{post.id}}/edit'>
+    <form action='/tags/{{tag.id}}/edit'>
         <input class="edit-button" type="submit" value="Edit" />
     </form>
 
-    <form action='/posts/{{post.id}}/delete' method="POST">
+    <form action='/tags/{{tag.id}}/delete' method="POST">
         <input class="delete-button" type="submit" value="Delete" />
     </form>
-
-    <a href='/users/{{user.id}}'><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
 
 </div>
 
