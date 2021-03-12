@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, Post_Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -101,6 +101,7 @@ def show_new_post(user_id):
         user=user
     )
 
+
 @app.route('/users/<int:user_id>/post/new', methods=["POST"])
 def submit_new_post(user_id):
     title = request.form['post-title']
@@ -113,6 +114,7 @@ def submit_new_post(user_id):
 
     return redirect(f"/users/{user_id}")
 
+
 @app.route('/posts/<int:post_id>')
 def show_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -121,10 +123,11 @@ def show_post(post_id):
 
     return render_template(
         "post_detail.html",
-        post = post,
-        user_id = user_id,
-        user = user
+        post=post,
+        user_id=user_id,
+        user=user
     )
+
 
 @app.route('/posts/<int:post_id>/delete', methods=["POST"])
 def delete_post(post_id):
@@ -156,3 +159,50 @@ def link_edit_post(post_id):
         "edit_post.html",
         user_id=user_id,
         post=post)
+
+
+@app.route('/tags')
+def show_tags():
+    tags = Tag.query.all()
+    return render_template("tags.html", tags=tags)
+
+
+@app.route('/tags/new')
+def create_tag():
+
+    return render_template("create_tag.html")
+
+
+@app.route('/tags/new', methods=["POST"])
+def process_tag():
+
+    name = request.form['name-tag']
+    tag = Tag(name=name)
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect("/tags")
+
+
+@app.route('/tags/<int:tag_id>/edit')
+def edit_tag(tag_id):
+
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template(
+        "edit_tag.html",
+        tag=tag
+    )
+
+
+@app.route(('/tags/<int:tag_id>/edit'), methods=["POST"])
+def editing_tag(tag_id):
+
+    tag = Tag.query.get_or_404(tag_id)
+    tag.name = request.form['edit-tag']
+
+    db.session.add(tag)
+    db.session.commit()
+
+    return redirect("/tags")

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create a tag</h1>
+<div class="form-container">
+    <form action="/tags/new" method="POST">
+        <label for="Name">Name<br>
+            <input class="form-input" type="text" name="name-tag" placeholder="Enter a name for the tag">
+        </label><br>
+        <input type="submit" class="submit-button" value="Add">
+        
+    </form> 
+
+    <div class="cancel-button-container"> 
+        <a href="/tags"><button type="submit" class="cancel-button" value="Cancel">Cancel</button></a>
+    </div>
+</div>
+
+{% endblock%}
+
+    <!-- <form action="/users/{{user.id}}" method="POST">
+        
+    </form> -->

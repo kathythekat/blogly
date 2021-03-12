@@ -27,9 +27,8 @@ class User(db.Model):
                           nullable=True,
                           unique=False,
                           default="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png")
-    
-    posts = db.relationship('Post')
 
+    posts = db.relationship('Post')
 
 
 class Post(db.Model):
@@ -50,3 +49,33 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User')
+
+    tags = db.relationship('Tag', secondary='post_tags')
+
+
+class Tag(db.Model):
+    """ Tags """
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    name = db.Column(db.Text,
+                     nullable=False,
+                     unique=True)
+    blog_posts = db.relationship('Post', secondary='post_tags')
+
+
+class Post_Tag(db.Model):
+    """Post Tag"""
+    __tablename__ = "post_tags"
+
+    post_id = db.Column(db.Integer,
+                        db.ForeignKey("posts.id"),
+                        nullable=False,
+                        primary_key=True)
+
+    tag_id = db.Column(db.Integer,
+                       db.ForeignKey("tags.id"),
+                       nullable=False,
+                       primary_key=True)
